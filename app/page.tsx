@@ -1,95 +1,48 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+/**
+ * Com a atualização do Next, tudo é renderizado do lado do servidor.
+ * Para renderizar do lado do cliente, precisamos utilizar 'use client'.
+ **/
+
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+import { useSendMail } from "@/hooks/useSendMail";
+import { ArrowIcon } from "@/components/icons/arrow-icon";
+import styles from "./page.module.css";
 
 export default function Home() {
+  const { mutate } = useSendMail();
+  const [email, setEmail] = useState("");
+
+  const submitMail = () => {
+    mutate({ email });
+  };
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      <Image
+        width={150}
+        height={150}
+        alt="Avatar Banana News"
+        src="/banana-avatar.png"
+        className={styles.avatar}
+      />
+      <h1 className={styles.heading}>BananaNews</h1>
+      <p className={styles.paragraph}>
+        Fique por dentro de tudo que rola no mundo da criatividade.
+      </p>
+      <div className={styles.inputWrapper}>
+        <input
+          type="email"
+          className={styles.input}
+          placeholder="digite seu email"
+          onChange={(e) => setEmail(e.target.value)}
         />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <button className={styles.button} onClick={submitMail}>
+          <ArrowIcon />
+        </button>
       </div>
     </main>
-  )
+  );
 }
